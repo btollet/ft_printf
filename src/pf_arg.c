@@ -67,10 +67,54 @@ void	p_ar(t_data *data, long nb, int j)
 	data->i += 1 + j;
 }
 #include <stdio.h>
+#include <math.h>
 
-void	s_maj_ar(t_data *data, long ar, int j)
+void	s_maj_ar(t_data *data, void *ar, int j)
 {
-	printf("Number: %ld\n", ar);
+	char *tmp;
+	unsigned char c;
+
+	int i;
+	int codepoint = 1;
+
+	i = 0;
+	tmp = ar;
+	while (tmp[i])
+	{
+		codepoint *= tmp[i];
+		i++;
+	}
+	printf("Number: %d\n, %d , %d", codepoint, tmp[0], tmp[1]);
+	if (codepoint <= 0x7f) {
+		ft_putendl("1");
+       //fprintf(f, "%c", (char) codepoint & 0x7f);
+    }
+    else if (codepoint <= 0x7ff) {
+    	ft_putendl("2");
+      // fprintf(f, "%c%c", (char) (0xc0 | (codepoint >> 6)),
+       //                   (char) (0x80 | (codepoint & 0x3f));
+    }
+    else if (codepoint <= 0xffff) {
+    	ft_putendl("3");
+       c = (char) (0xe0 | (codepoint >> 12));
+       write (1, &c, 1);
+       c = (char) (0x80 | ((codepoint >> 6) & 0x3f));
+       write (1, &c, 1);
+       c = (char) (0x80 | (codepoint & 0x3f));
+       write (1, &c, 1);
+       c = 0x0a;
+	write(1, &c, 1);
+    }
+    else if (codepoint <= 0x1fffff) {
+    	ft_putendl("4");
+       //fprintf(f, "%c%c%c%c", (char) (0xf0 | (codepoint >> 18)),
+         //                     (char) (0x80 | ((codepoint >> 12) & 0x3f),
+        //                      (char) (0x80 | ((codepoint >> 6) & 0x3f),
+         //                     (char) (0x80 | (codepoint & 0x3f));
+    }
+    else {
+        ft_putendl("NO");
+    }
 	data->i += 1 + j;
 	data->nb_char += 2;
 }

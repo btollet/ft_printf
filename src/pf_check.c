@@ -41,7 +41,7 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 	else if (str[data->i + j] == 'p')
 		p_ar(data, va_arg(ar, long), j);
 	else if (str[data->i + j] == 'S')
-		s_maj_ar(data, va_arg(ar, long), j);
+		s_maj_ar(data, va_arg(ar, void *), j);
 	else if (str[data->i + j] == '%')
 	{
 		res_join(data, NULL, '%');
