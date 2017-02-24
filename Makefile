@@ -6,7 +6,7 @@
 #    By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/18 13:08:36 by benjamin          #+#    #+#              #
-#    Updated: 2017/02/19 16:56:34 by benjamin         ###   ########.fr        #
+#    Updated: 2017/02/23 20:31:46 by benjamin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,10 @@ ft_isblank.c    ft_lstnew.c     ft_putendl.c    ft_strdel.c     ft_strncmp.c    
 ft_isdigit.c    ft_memalloc.c   ft_putendl_fd.c ft_strdup.c     ft_strncpy.c    ft_wordcount.c \
 ft_isprint.c    ft_memccpy.c    ft_putnbr.c     ft_strequ.c     ft_strnequ.c    ft_wordlen.c \
 ft_isxdigit.c   ft_memchr.c     ft_putnbr_fd.c  ft_striter.c    ft_strnew.c     ft_itoa.c \
-ft_memcmp.c     ft_putstr.c     ft_striteri.c   ft_strnstr.c    get_next_line.c
+ft_memcmp.c     ft_putstr.c     ft_striteri.c   ft_strnstr.c    get_next_line.c ft_revstr.c \
+ft_strappend.c
 
-PRINTF_SRCS = ft_printf.c
+PRINTF_SRCS = ft_printf.c    pf_init.c    pf_arg.c    pf_check.c
 
 LIB_PREF = $(addprefix $(LIB_PATH)/, $(LIB_SRCS))
 LIB_OBJN = $(LIB_SRCS:.c=.o)

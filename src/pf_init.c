@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   pf_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/07 16:50:21 by btollet           #+#    #+#             */
-/*   Updated: 2017/02/19 22:30:46 by benjamin         ###   ########.fr       */
+/*   Created: 2017/02/22 20:19:02 by benjamin          #+#    #+#             */
+/*   Updated: 2017/02/22 20:22:00 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_putendl(char const *s)
+t_data	init()
 {
-	if (s)
-	{
-		ft_putstr(s);
-		write(1, "\n", 1);
-	}
+	t_data	data;
+
+	data.result = ft_strnew(0);
+	data.i = 0;
+	data.nb_char = 0;
+	return (data);
 }

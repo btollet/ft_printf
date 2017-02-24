@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:13:11 by btollet           #+#    #+#             */
-/*   Updated: 2017/01/24 15:08:41 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/02/22 20:17:39 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ size_t				ft_wordlen(const char *s, char c, int start);
 int					ft_wordcount(const char *s, char c);
 size_t				ft_lstlen(t_list *lst);
 int					get_next_line(const int fd, char **line);
+char				*ft_strappend(char *file, char *buf);
+char				*ft_revstr(char *str);
 
 #endif

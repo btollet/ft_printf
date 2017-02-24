@@ -6,20 +6,11 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 12:25:42 by benjamin          #+#    #+#             */
-/*   Updated: 2017/01/09 16:22:07 by btollet          ###   ########.fr       */
+/*   Updated: 2017/02/22 20:11:08 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-char		*ft_strappend(char *file, char *buf)
-{
-	char	*result;
-
-	result = ft_strjoin(file, buf);
-	ft_memdel((void *)&file);
-	return (result);
-}
 
 int			end_line(char **line, char *file, char **save, int fd)
 {

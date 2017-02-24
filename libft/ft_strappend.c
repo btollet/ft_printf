@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_strappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/07 16:50:21 by btollet           #+#    #+#             */
-/*   Updated: 2017/02/19 22:30:46 by benjamin         ###   ########.fr       */
+/*   Created: 2017/02/22 20:10:39 by benjamin          #+#    #+#             */
+/*   Updated: 2017/02/22 20:11:13 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char const *s)
+char		*ft_strappend(char *file, char *buf)
 {
-	if (s)
-	{
-		ft_putstr(s);
-		write(1, "\n", 1);
-	}
+	char	*result;
+
+	result = ft_strjoin(file, buf);
+	ft_memdel((void *)&file);
+	return (result);
 }
