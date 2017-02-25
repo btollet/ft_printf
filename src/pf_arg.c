@@ -78,43 +78,54 @@ void	s_maj_ar(t_data *data, void *ar, int j)
 	int codepoint = 1;
 
 	i = 0;
+	if (!ar)
+		return(s_ar(data, NULL, j));
 	tmp = ar;
+	if (data->nb_char > 0)
+	{
+		ft_putstr(data->result);
+		ft_memdel((void *)&data->result);
+		data->result = ft_strnew(0);
+	}
 	while (tmp[i])
 	{
-		codepoint *= tmp[i];
+
+		if (i >= 1)
+			codepoint += (tmp[i] * i * 256) - 1;
+		else
+			codepoint += tmp[i];
 		i++;
 	}
-	printf("Number: %d\n, %d , %d", codepoint, tmp[0], tmp[1]);
-	if (codepoint <= 0x7f) {
-		ft_putendl("1");
-       //fprintf(f, "%c", (char) codepoint & 0x7f);
-    }
+	//printf("Number: %d\n, %d , %d", codepoint, tmp[0], tmp[1]);
+	if (codepoint <= 0x7f)
+	{
+		printf("1\n");
+       write (1, &c, 1);
+	}
     else if (codepoint <= 0x7ff) {
-    	ft_putendl("2");
-      // fprintf(f, "%c%c", (char) (0xc0 | (codepoint >> 6)),
-       //                   (char) (0x80 | (codepoint & 0x3f));
+      	c = (char) (0xc0 | (codepoint >> 6));
+      	write (1, &c, 1);
+       	c = (char) (0x80 | (codepoint & 0x3f));
+       	write (1, &c, 1);
     }
-    else if (codepoint <= 0xffff) {
-    	ft_putendl("3");
-       c = (char) (0xe0 | (codepoint >> 12));
-       write (1, &c, 1);
-       c = (char) (0x80 | ((codepoint >> 6) & 0x3f));
-       write (1, &c, 1);
-       c = (char) (0x80 | (codepoint & 0x3f));
-       write (1, &c, 1);
-       c = 0x0a;
-	write(1, &c, 1);
+	else if (codepoint <= 0xffff)
+	{
+		c = (char) (0xe0 | (codepoint >> 12));
+		write (1, &c, 1);
+		c = (char) (0x80 | ((codepoint >> 6) & 0x3f));
+		write (1, &c, 1);
+		c = (char) (0x80 | (codepoint & 0x3f));
+		write (1, &c, 1);  
     }
     else if (codepoint <= 0x1fffff) {
     	ft_putendl("4");
-       //fprintf(f, "%c%c%c%c", (char) (0xf0 | (codepoint >> 18)),
-         //                     (char) (0x80 | ((codepoint >> 12) & 0x3f),
-        //                      (char) (0x80 | ((codepoint >> 6) & 0x3f),
-         //                     (char) (0x80 | (codepoint & 0x3f));
+       // (char) (0xf0 | (codepoint >> 18)),
+         // (char) (0x80 | ((codepoint >> 12) & 0x3f),
+        // (char) (0x80 | ((codepoint >> 6) & 0x3f),
+         // (char) (0x80 | (codepoint & 0x3f));
     }
-    else {
+    else
         ft_putendl("NO");
-    }
 	data->i += 1 + j;
-	data->nb_char += 2;
+	data->nb_char += 3;
 }

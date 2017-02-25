@@ -12,12 +12,12 @@ int	main()
 setlocale(LC_ALL, "");
 	i = 'a';
 	ft_putendl("Moi:");
-	result = ft_printf("%S", L"米");
+	result = ft_printf("%S", L"我是一只猫。");
 	ft_putendl("");
 	ft_putnbr(result);
 	ft_putendl("");
 	ft_putendl("Printf:");
-	result = printf("%S", L"米");
+	result = printf("%S", L"我是一只猫。");
 	ft_putendl("");
 	ft_putnbr(result);
 	ft_putendl("");
