@@ -86,11 +86,17 @@ void	d_maj_ar(t_data *data, void *ar, int j)
 	long	nb;
 	char 	*str;
 
+
 	nb = (long)ar;
-	str = ft_itoa_long(nb);
-	res_join(data, str, 0);
-	ft_memdel((void *)&str);
-	data->i += 1 + j;
+	if ((long)ar <= 100000)
+		d_ar(data, (int)ar, j);
+	else
+	{
+		str = ft_itoa_long(nb);
+		res_join(data, str, 0);
+		ft_memdel((void *)&str);
+		data->i += 1 + j;
+	}
 }
 
 void	o_ar(t_data *data, void *nb, int j)
