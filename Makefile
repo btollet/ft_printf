@@ -27,7 +27,7 @@ ft_isdigit.c    ft_memalloc.c   ft_putendl_fd.c ft_strdup.c     ft_strncpy.c    
 ft_isprint.c    ft_memccpy.c    ft_putnbr.c     ft_strequ.c     ft_strnequ.c    ft_wordlen.c \
 ft_isxdigit.c   ft_memchr.c     ft_putnbr_fd.c  ft_striter.c    ft_strnew.c     ft_itoa.c \
 ft_memcmp.c     ft_putstr.c     ft_striteri.c   ft_strnstr.c    get_next_line.c ft_revstr.c \
-ft_strappend.c
+ft_strappend.c  ft_itoa_long.c  ft_longlen.c    ft_itoa_ulong.c ulong_len.c
 
 PRINTF_SRCS = ft_printf.c    pf_init.c    pf_arg.c    pf_check.c
 

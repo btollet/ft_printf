@@ -91,5 +91,9 @@ size_t				ft_lstlen(t_list *lst);
 int					get_next_line(const int fd, char **line);
 char				*ft_strappend(char *file, char *buf);
 char				*ft_revstr(char *str);
+int					ft_longlen(long i);
+char				*ft_itoa_long(long n);
+char				*ft_itoa_ulong(unsigned long n);
+int					ft_ulonglen(unsigned long i);
 
 #endif

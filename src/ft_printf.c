@@ -22,6 +22,7 @@ int		ft_printf(char *str, ...)
 	data = check_str(data, str, ar);
 	if (data.nb_char > 0)
 		ft_putstr(data.result);
+	ft_memdel((void *)&data.result);
 	return (data.nb_char);
 }
 
@@ -31,7 +32,7 @@ void	res_join(t_data *data, char *str, char c)
 
 	if (str)
 	{
-		data->result = ft_strappend(data->result, str);
+		data->result = ft_strappend(data->result, str);		
 		data->nb_char += (ft_strlen(str));
 	}
 	if (c)
