@@ -33,6 +33,7 @@ void			p_ar(t_data *data, long nb, int j);
 void			s_maj_ar(t_data *data, void *ar, int j);
 void			d_maj_ar(t_data *data, void *ar, int j);
 void			o_ar(t_data *data, void *nb, int j);
+void			u_ar(t_data *data, void *ar, int j);
 void			u_maj_ar(t_data *data, void *ar, int j);
 void			x_ar(t_data *data, void *ar, int j, char x);
 void			c_maj_ar(t_data *data, void *ar, int j);

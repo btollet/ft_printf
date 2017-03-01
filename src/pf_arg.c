@@ -80,7 +80,7 @@ void	p_ar(t_data *data, long nb, int j)
 	ft_memdel((void *)&str);
 	data->i += 1 + j;
 }
-
+# include <stdio.h>             
 void	d_maj_ar(t_data *data, void *ar, int j)
 {
 	long	nb;
@@ -88,15 +88,11 @@ void	d_maj_ar(t_data *data, void *ar, int j)
 
 
 	nb = (long)ar;
-	if ((long)ar <= 100000)
-		d_ar(data, (int)ar, j);
-	else
-	{
-		str = ft_itoa_long(nb);
-		res_join(data, str, 0);
-		ft_memdel((void *)&str);
-		data->i += 1 + j;
-	}
+	str = ft_itoa_long(nb);
+
+	res_join(data, str, 0);
+	ft_memdel((void *)&str);
+	data->i += 1 + j;
 }
 
 void	o_ar(t_data *data, void *nb, int j)
@@ -116,6 +112,19 @@ void	o_ar(t_data *data, void *nb, int j)
 		i++;
 	}
 	str = ft_revstr(str);
+	res_join(data, str, 0);
+	ft_memdel((void *)&str);
+	data->i += 1 + j;
+}
+
+void	u_ar(t_data *data, void *ar, int j)
+{
+	unsigned int	nb;
+	char 			*str;
+
+	nb = (unsigned int)ar;
+//printf("\nn avant = %ld", nb);
+	str = ft_itoa_ulong(nb);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
 	data->i += 1 + j;
