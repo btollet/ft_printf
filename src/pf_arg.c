@@ -97,9 +97,31 @@ void	d_maj_ar(t_data *data, void *ar, int j)
 
 void	o_ar(t_data *data, void *nb, int j)
 {
-	int		i;
-	char	*str;
-	long	deci;
+	int				i;
+	char			*str;
+	unsigned int	deci;
+
+	i = 0;
+	deci = (unsigned int)nb;
+	str = ft_strnew(16);
+	str[0] = '0';
+	while (deci != 0)
+	{
+		str[i] = (deci % 8) + 48;
+		deci /= 8;
+		i++;
+	}
+	str = ft_revstr(str);
+	res_join(data, str, 0);
+	ft_memdel((void *)&str);
+	data->i += 1 + j;
+}
+
+void	o_maj_ar(t_data *data, void *nb, int j)
+{
+	int				i;
+	char			*str;
+	long			deci;
 
 	i = 0;
 	deci = (long)nb;
@@ -144,7 +166,7 @@ void	u_maj_ar(t_data *data, void *ar, int j)
 
 void	x_ar(t_data *data, void *ar, int j, char x)
 {
-	unsigned long	nb; 
+	unsigned int	nb; 
 	char			*hex;
 	char			*str;
 	int				i;
@@ -156,7 +178,7 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 		hex = "0123456789abcdef";
 	else
 		hex = "0123456789ABCDEF";
-	nb = (unsigned long)ar;
+	nb = (unsigned int)ar;
 	if (nb == 0)
 		str[i++] = '0';
 	while (nb)
@@ -225,6 +247,35 @@ void	lo_ar(t_data *data, void *nb, int j)
 		deci /= 8;
 		i++;
 	}
+	str = ft_revstr(str);
+	res_join(data, str, 0);
+	ft_memdel((void *)&str);
+	data->i += 1 + j;
+}
+
+void	lx_ar(t_data *data, void *ar, int j, char x)
+{
+	unsigned long	nb; 
+	char			*hex;
+	char			*str;
+	int				i;
+
+	i = 0;
+	hex = ft_strnew(16);
+	str = ft_strnew(21);
+	if (x == 'x')
+		hex = "0123456789abcdef";
+	else
+		hex = "0123456789ABCDEF";
+	nb = (unsigned long)ar;
+	if (nb == 0)
+		str[i++] = '0';
+	while (nb)
+	{
+		str[i++] = hex[nb % 16];
+		nb /= 16;
+	}
+	str[i] = 0;
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);

@@ -44,8 +44,10 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 		s_maj_ar(data, va_arg(ar, void *), j);
 	else if (str[data->i + j] == 'D')
 		d_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'o' || str[data->i + j] == 'O')
+	else if (str[data->i + j] == 'o')
 		o_ar(data, va_arg(ar, void *), j);
+	else if (str[data->i + j] == 'O')
+		o_maj_ar(data, va_arg(ar, void *), j);
 	else if (str[data->i + j] == 'U')
 		u_maj_ar(data, va_arg(ar, void *), j);
 	else if (str[data->i + j] == 'x' || str[data->i + j] == 'X')
@@ -87,7 +89,7 @@ void	check_l_arg(t_data *data, char *str, va_list ar)
 	else if (str[data->i] == 'U')
 		u_maj_ar(data, va_arg(ar, void *), 0);
 	else if (str[data->i] == 'x' || str[data->i] == 'X')
-		x_ar(data, va_arg(ar, void *), 0, str[data->i]);
+		lx_ar(data, va_arg(ar, void *), 0, str[data->i]);
 	else if (str[data->i] == 'C')
 		c_maj_ar(data, va_arg(ar, void *), 0);
 	else if (str[data->i] == 'l')
