@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 20:20:31 by benjamin          #+#    #+#             */
-/*   Updated: 2017/02/24 12:32:28 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/04 02:01:42 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,19 @@ void	c_ar(t_data *data, int ar, int j)
 		write(1, "\0", 1);
 		data->nb_char++;
 	}
+	else if (data->option)
+	{
+		data->option--;
+		res_join(data, 0, ' ');
+		if (data->nb_char > 0)
+		{
+			ft_putstr(data->result);
+			ft_memdel((void *)&data->result);
+			data->result = ft_strnew(0);
+		}
+		write(1, "\0", 1);
+		data->nb_char++;
+	}
 	else
 		data->nb_char++;
 	data->i += 1 + j;
@@ -60,11 +73,11 @@ void	p_ar(t_data *data, long nb, int j)
 {
 	char	*hex;
 	char	*str;
+	char	*final;
 	int		i;
 
 	i = 0;
-	hex = ft_strnew(16);
-	str = ft_strnew(16);
+	str = ft_strnew(18);
 	hex = "0123456789abcdef";
 	if (nb == 0)
 		str[i++] = '0';
@@ -75,12 +88,13 @@ void	p_ar(t_data *data, long nb, int j)
 	}
 	str[i] = 0;
 	str = ft_revstr(str);
-	res_join(data, "0x", 0);
-	res_join(data, str, 0);
+	final = ft_strjoin("0x", str);
+	res_join(data, final, 0);
 	ft_memdel((void *)&str);
+	ft_memdel((void *)&final);
 	data->i += 1 + j;
 }
-# include <stdio.h>             
+
 void	d_maj_ar(t_data *data, void *ar, int j)
 {
 	long	nb;
@@ -121,11 +135,11 @@ void	o_maj_ar(t_data *data, void *nb, int j)
 {
 	int				i;
 	char			*str;
-	long			deci;
+	unsigned long	deci;
 
 	i = 0;
-	deci = (long)nb;
-	str = ft_strnew(16);
+	deci = (unsigned long)nb;
+	str = ft_strnew(21);
 	str[0] = '0';
 	while (deci != 0)
 	{
@@ -172,7 +186,6 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 	int				i;
 
 	i = 0;
-	hex = ft_strnew(16);
 	str = ft_strnew(21);
 	if (x == 'x')
 		hex = "0123456789abcdef";
@@ -190,6 +203,7 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
+
 	data->i += 1 + j;
 }
 
@@ -261,7 +275,6 @@ void	lx_ar(t_data *data, void *ar, int j, char x)
 	int				i;
 
 	i = 0;
-	hex = ft_strnew(16);
 	str = ft_strnew(21);
 	if (x == 'x')
 		hex = "0123456789abcdef";
@@ -287,17 +300,31 @@ void	s_maj_ar(t_data *data, void *ar, int j)
 	wchar_t			*tmp;
 	unsigned char	c;
 	int				i;
+	int				len;
 
 	i = 0;
+	len = 0;
 	if (!ar)
 		return(s_ar(data, NULL, j));
 	tmp = (wchar_t *)ar;
+	while (tmp[i])
+	{
+		if (tmp[i] <= 0x7ff)
+			len ++;
+		else if (tmp[i] <= 0xffff)
+			len += 2;
+		len++;
+		i++;
+	}
+	if (data->option - len > 0)
+			space(data, data->option - len);
 	if (data->nb_char > 0)
 	{
 		ft_putstr(data->result);
 		ft_memdel((void *)&data->result);
 		data->result = ft_strnew(0);
 	}
+	i = 0;
 	while (tmp[i])
 	{
 		if (tmp[i] <= 0x7f)
@@ -320,8 +347,10 @@ void	s_maj_ar(t_data *data, void *ar, int j)
 			write (1, &c, 1);  
 			data->nb_char += 2;
 		}
-		data->nb_char ++;
+		data->nb_char++;
 		i++;
 	}
+	if (data->option + len < 0)
+		space(data, -(data->option + len));
 	data->i += 1 + j;
 }

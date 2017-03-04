@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 21:37:04 by benjamin          #+#    #+#             */
-/*   Updated: 2017/02/19 22:09:01 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/03 23:51:00 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ char	*ft_revstr(char *str)
 	while (--len >= 0)
 		*result++ = str[len];
 	*result = 0;
+	ft_memdel((void *)&str);
 	return (cpy);
 }

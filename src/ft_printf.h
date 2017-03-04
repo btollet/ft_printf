@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 16:58:21 by benjamin          #+#    #+#             */
-/*   Updated: 2017/02/24 12:30:44 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/04 01:35:31 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ typedef struct	s_data
 {
 	char		*result;
 	int			i;
-	int			nb_char;	
+	int			nb_char;
+	int			option;
 }				t_data;
 
 int				ft_printf(char *str, ...);
 t_data			init();
 t_data			check_str(t_data data, char *str, va_list ar);
+void			get_option(t_data *data, char *str);
+void			space(t_data *data, int nb);
 void			s_ar(t_data *data, char *ar, int j);
 void			c_ar(t_data *data, int ar, int j);
 void			d_ar(t_data *data, int nb, int j);
@@ -40,10 +43,16 @@ void			x_ar(t_data *data, void *ar, int j, char x);
 void			c_maj_ar(t_data *data, void *ar, int j);
 void			lo_ar(t_data *data, void *nb, int j);
 void			lx_ar(t_data *data, void *ar, int j, char x);
+void			hhd_ar(t_data *data, void *ar, int j);
+void			hhu_ar(t_data *data, void *ar, int j);
+void			hho_ar(t_data *data, void *nb, int j);
+void			hho_maj_ar(t_data *data, void *nb, int j);
+void			hhx_ar(t_data *data, void *ar, int j, char x);
 void			res_join(t_data *data, char *str, char c);
 void			check_arg(t_data *data, char *str, va_list ar, int j);
 void			check_l_arg(t_data *data, char *str, va_list ar);
 void			check_h_arg(t_data *data, char *str, va_list ar);
+void			check_hh_arg(t_data *data, char *str, va_list ar);
 
 
 #endif

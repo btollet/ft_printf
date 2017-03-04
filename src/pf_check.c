@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 20:23:07 by benjamin          #+#    #+#             */
-/*   Updated: 2017/02/24 12:30:33 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/04 00:37:41 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_data		check_str(t_data data, char *str, va_list ar)
 
 void	check_arg(t_data *data, char *str, va_list ar, int j)
 {
+	get_option(data, str);
 	if (str[data->i + j] == 's')
 		s_ar(data, va_arg(ar, char *), j);
 	else if (str[data->i + j] == 'c')
@@ -63,7 +64,7 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 	}
 	else if (str[data->i + j] == ' ')
 		check_arg(data, str, ar, j + 1);
-	else if (str[data->i + j] == 'l')
+	else if (str[data->i + j] == 'l' || str[data->i + j] == 'z' || str[data->i + j] == 'j')
 		check_l_arg(data, str, ar);
 	else if (str[data->i + j] == 'h')
 		check_h_arg(data, str, ar);
@@ -122,5 +123,34 @@ void	check_h_arg(t_data *data, char *str, va_list ar)
 	else if (str[data->i] == 'C')
 		c_maj_ar(data, va_arg(ar, void *), 0);
 	else if (str[data->i] == 'h')
-		check_h_arg(data, str, ar);
+		check_hh_arg(data, str, ar);
+}
+
+void	check_hh_arg(t_data *data, char *str, va_list ar)
+{
+	data->i++;
+	if (str[data->i] == 's')
+		s_ar(data, va_arg(ar, char *), 0);
+	else if (str[data->i] == 'c')
+		c_ar(data, va_arg(ar, int), 0);
+	else if (str[data->i] == 'd' || str[data->i] == 'i')
+		hhd_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'p')
+		p_ar(data, va_arg(ar, long), 0);
+	else if (str[data->i] == 'S')
+		s_maj_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'D')
+		d_maj_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'u')
+		hhu_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'o')
+		hho_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'O')
+		hho_maj_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'U')
+		u_maj_ar(data, va_arg(ar, void *), 0);
+	else if (str[data->i] == 'x' || str[data->i] == 'X')
+		hhx_ar(data, va_arg(ar, void *), 0, str[data->i]);
+	else if (str[data->i] == 'C')
+		c_maj_ar(data, va_arg(ar, void *), 0);
 }
