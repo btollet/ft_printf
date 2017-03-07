@@ -10,12 +10,12 @@ int	main()
 	
 setlocale(LC_ALL, "");
 	ft_putendl("Moi:");
-	result = ft_printf("{%30S}", L"我是一只猫。");
+	result = ft_printf("{%+ d}", 42);
 	ft_putendl("");
 	ft_putnbr(result);
 	ft_putendl("");
 	ft_putendl("Printf:");
-	result = printf("{%30S}", L"我是一只猫。");
+	result = printf("{%+ d}", 42);
 	ft_putendl("");
 	ft_putnbr(result);
 	ft_putendl("");

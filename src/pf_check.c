@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 20:23:07 by benjamin          #+#    #+#             */
-/*   Updated: 2017/03/04 00:37:41 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/07 17:36:26 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_data		check_str(t_data data, char *str, va_list ar)
 
 void	check_arg(t_data *data, char *str, va_list ar, int j)
 {
-	get_option(data, str);
+	get_option(data, str, j);
 	if (str[data->i + j] == 's')
 		s_ar(data, va_arg(ar, char *), j);
 	else if (str[data->i + j] == 'c')

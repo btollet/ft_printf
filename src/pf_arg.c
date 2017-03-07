@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 20:20:31 by benjamin          #+#    #+#             */
-/*   Updated: 2017/03/04 02:01:42 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/07 18:44:07 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	c_ar(t_data *data, int ar, int j)
 	else if (data->option)
 	{
 		data->option--;
-		res_join(data, 0, ' ');
+		res_join(data, 0, data->c_option);
 		if (data->nb_char > 0)
 		{
 			ft_putstr(data->result);
@@ -62,8 +62,18 @@ void	d_ar(t_data *data, int nb, int j)
 	char *str;
 
 	data->i += 1 + j;
-	while (j-- && nb >= 0)
+	if (data->plus == 1 && nb >= 0)
+		data->plus = 2;
+	while (j-- && nb >= 0 && data->plus == 0)
 		res_join(data, 0, ' ');
+	if (nb < 0 && data->c_option == '0' && data->option > 0)
+	{
+		str = "-";
+		data->result = ft_strappend(data->result, str);		
+		data->nb_char++;
+		nb = -nb;
+		data->option--;
+	}
 	str = ft_itoa(nb);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
@@ -71,24 +81,30 @@ void	d_ar(t_data *data, int nb, int j)
 
 void	p_ar(t_data *data, long nb, int j)
 {
-	char	*hex;
 	char	*str;
 	char	*final;
 	int		i;
 
 	i = 0;
 	str = ft_strnew(18);
-	hex = "0123456789abcdef";
 	if (nb == 0)
 		str[i++] = '0';
 	while (nb)
 	{
-		str[i++] = hex[nb % 16];
+		str[i++] = data->hex[nb % 16];
 		nb /= 16;
 	}
 	str[i] = 0;
 	str = ft_revstr(str);
-	final = ft_strjoin("0x", str);
+	if (data->c_option == '0' && data->option > 0)
+	{
+		data->result = ft_strjoin(data->result, "0x");		
+		data->nb_char += 2;
+		data->option -= 2;
+		final = ft_strdup(str);
+	}
+	else
+		final = ft_strjoin("0x", str);
 	res_join(data, final, 0);
 	ft_memdel((void *)&str);
 	ft_memdel((void *)&final);
@@ -117,7 +133,7 @@ void	o_ar(t_data *data, void *nb, int j)
 
 	i = 0;
 	deci = (unsigned int)nb;
-	str = ft_strnew(16);
+	str = ft_strnew(17);
 	str[0] = '0';
 	while (deci != 0)
 	{
@@ -125,6 +141,8 @@ void	o_ar(t_data *data, void *nb, int j)
 		deci /= 8;
 		i++;
 	}
+	if (data->sharp == 1)
+		str[i] = '0';
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
@@ -139,7 +157,7 @@ void	o_maj_ar(t_data *data, void *nb, int j)
 
 	i = 0;
 	deci = (unsigned long)nb;
-	str = ft_strnew(21);
+	str = ft_strnew(22);
 	str[0] = '0';
 	while (deci != 0)
 	{
@@ -147,6 +165,8 @@ void	o_maj_ar(t_data *data, void *nb, int j)
 		deci /= 8;
 		i++;
 	}
+	if (data->sharp == 1)
+		str[i] = '0';
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
@@ -159,7 +179,6 @@ void	u_ar(t_data *data, void *ar, int j)
 	char 			*str;
 
 	nb = (unsigned int)ar;
-//printf("\nn avant = %ld", nb);
 	str = ft_itoa_ulong(nb);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
@@ -180,30 +199,30 @@ void	u_maj_ar(t_data *data, void *ar, int j)
 
 void	x_ar(t_data *data, void *ar, int j, char x)
 {
-	unsigned int	nb; 
-	char			*hex;
-	char			*str;
-	int				i;
+			unsigned int	nb; 
+			char			*str;
+			int				i;
 
 	i = 0;
-	str = ft_strnew(21);
-	if (x == 'x')
-		hex = "0123456789abcdef";
-	else
-		hex = "0123456789ABCDEF";
+	str = ft_strnew(23);
 	nb = (unsigned int)ar;
 	if (nb == 0)
 		str[i++] = '0';
 	while (nb)
 	{
-		str[i++] = hex[nb % 16];
+		str[i++] = data->hex[nb % 16];
 		nb /= 16;
 	}
-	str[i] = 0;
+	if (data->sharp == 1 && (unsigned int)ar != 0)
+	{
+		str[i++] = 'x';
+		str[i++] = '0';
+	}
+	while (x == 'X' && --i >= 0)
+		str[i] = ft_toupper(str[i]);
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
-
 	data->i += 1 + j;
 }
 

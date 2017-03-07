@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/04 01:23:30 by benjamin          #+#    #+#             */
-/*   Updated: 2017/03/04 02:02:49 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/07 18:43:12 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	res_join(t_data *data, char *str, char c)
 	if (str)
 	{
 		len = ft_strlen(str);
-		if (data->option - len > 0)
-			space(data, data->option - len);
+		space(data, data->option - len);
 		data->result = ft_strappend(data->result, str);		
 		data->nb_char += (len);
 		if (data->option + len < 0)
@@ -29,8 +28,7 @@ void	res_join(t_data *data, char *str, char c)
 	}
 	if (c)
 	{
-		if (data->option - 1 > 0)
-			space(data, data->option - 1);
+		space(data, data->option - 1);
 		tmp = ft_strnew(1);
 		*tmp = c;
 		data->result = ft_strappend(data->result, tmp);
@@ -46,12 +44,18 @@ void	space(t_data *data, int nb)
 {
 	char *str;
 
+	if (data->plus == 2)
+	{
+		data->result = ft_strappend(data->result, "+");
+		data->nb_char++;
+		data->plus = 0;
+	}
 	if (nb > 0)
 	{
 		data->nb_char += nb;
 		str = ft_strnew(nb);
 		while (--nb >= 0)
-			str[nb] = ' ';
+			str[nb] = data->c_option;
 		data->result = ft_strappend(data->result, str);
 		ft_memdel((void *)&str);
 		data->option = 0;
