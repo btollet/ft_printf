@@ -25,13 +25,18 @@ typedef struct	s_data
 	int			option;
 	char		c_option;
 	int			plus;
+	int			less;
 	int			sharp;
+	int			precision;
+	int			prec_ok;
+	int			null;
 }				t_data;
 
 int				ft_printf(char *str, ...);
 t_data			init();
 t_data			check_str(t_data data, char *str, va_list ar);
-void			get_option(t_data *data, char *str, int j);
+void			reset_option(t_data *data, char *str, int j);
+void			get_option(t_data *data, char *str, int j, char last);
 void			space(t_data *data, int nb);
 void			s_ar(t_data *data, char *ar, int j);
 void			c_ar(t_data *data, int ar, int j);

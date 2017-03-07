@@ -32,7 +32,9 @@ t_data		check_str(t_data data, char *str, va_list ar)
 
 void	check_arg(t_data *data, char *str, va_list ar, int j)
 {
-	get_option(data, str, j);
+	reset_option(data, str, j);
+	while (str[data->i + j] == ' ' && data->plus == 1)
+		j++;
 	if (str[data->i + j] == 's')
 		s_ar(data, va_arg(ar, char *), j);
 	else if (str[data->i + j] == 'c')

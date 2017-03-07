@@ -65,14 +65,15 @@ void	d_ar(t_data *data, int nb, int j)
 	if (data->plus == 1 && nb >= 0)
 		data->plus = 2;
 	while (j-- && nb >= 0 && data->plus == 0)
-		res_join(data, 0, ' ');
+	{
+		data->result = ft_strappend(data->result, " ");
+		data->option--;
+		data->nb_char++;
+	}
 	if (nb < 0 && data->c_option == '0' && data->option > 0)
 	{
-		str = "-";
-		data->result = ft_strappend(data->result, str);		
-		data->nb_char++;
 		nb = -nb;
-		data->option--;
+		data->less = 2;
 	}
 	str = ft_itoa(nb);
 	res_join(data, str, 0);
