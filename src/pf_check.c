@@ -17,6 +17,7 @@ t_data		check_str(t_data data, char *str, va_list ar)
 	while (str[data.i] && data.nb_char != -1)
 	{
 		data.precision = 0;
+		data.null = 0;
 		if (str[data.i] == '%')
 		{
 			data.i++;
@@ -66,6 +67,11 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 			data->option = 0;
 		if (data->null > 0)
 			data->null = 0;
+		if (data->precision)
+		{
+			space(data, data->precision - 1);
+			data->precision = 0;
+		}
 		res_join(data, NULL, '%');
 		data->i += 1 + j;
 	}
@@ -75,8 +81,15 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 		check_l_arg(data, str, ar);
 	else if (str[data->i + j] == 'h')
 		check_h_arg(data, str, ar);
-	else if (j != 0)
+	else if (data->precision)
+	{
+		space(data, data->precision - 1);
+		if (j != 0)
+			data->i++;
+	}
+	else if (j != 0 )
 		data->i++;
+
 }
 
 void	check_l_arg(t_data *data, char *str, va_list ar)

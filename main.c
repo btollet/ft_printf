@@ -10,12 +10,12 @@ int	main()
 	
 setlocale(LC_ALL, "");
 	ft_putendl("Moi:");
-	result = ft_printf("%2.9p", 1234);
+	result = ft_printf("%-5.2s is a string", "this");
 	ft_putendl("");
 	ft_putnbr(result);
 	ft_putendl("");
 	ft_putendl("Printf:");
-	result = printf("%2.9p", 1234);
+	result = printf("%-5.2s is a string", "this");
 	ft_putendl("");
 	ft_putnbr(result);
 	ft_putendl("");

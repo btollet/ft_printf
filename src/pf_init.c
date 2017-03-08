@@ -46,7 +46,7 @@ void	get_option(t_data *data, char *str, int j, char last)
 	{
 		if (*str == '.')
 			data->prec_ok = 1;
-		if (*str == '.' && data->option > 0)
+		if (*str == '.' && data->option != 0)
 		{
 			data->precision = data->option;
 			data->option = 0;	
@@ -73,6 +73,8 @@ void	get_option(t_data *data, char *str, int j, char last)
 		if (*str == '-')
 			data->less = 1;
 		data->i += ft_intlen(data->option);
+		if (data->less == 1 && data->option > 0 && last != '.')
+			data->option = -data->option;
 		get_option(data, str, ft_intlen(data->option), *str);
 	}
 	else if (last == '.' && data->null == 0)

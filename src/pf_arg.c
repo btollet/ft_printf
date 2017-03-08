@@ -29,6 +29,11 @@ void	s_ar(t_data *data, char *ar, int j)
 		else
 			res_join(data, ar, 0); 
 	}
+	else if (data->precision)
+	{
+		data->null = 0;
+		space(data, data->precision);
+	}
 	else
 		res_join(data, "(null)", 0);
 	data->i += 1 + j;
@@ -56,9 +61,14 @@ void	c_ar(t_data *data, int ar, int j)
 		write(1, "\0", 1);
 		data->nb_char++;
 	}
-	else if (data->option)
+	else if (data->option || data->precision)
 	{
 		data->option--;
+		if (data->precision)
+		{
+			data->null = 0;
+			space(data, data->precision - 1);
+		}
 		if (data->prec_ok == 0)
 			res_join(data, 0, data->c_option);
 		if (data->nb_char > 0)
@@ -228,9 +238,13 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 	char			*str;
 	int				i;
 
+	data->i += 1 + j;
+	
 	i = 0;
 	str = ft_strnew(23);
 	nb = (unsigned int)ar;
+	if (data->prec_ok && data->null == 2 && nb == 0)
+		return ;
 	if (nb == 0)
 		str[i++] = '0';
 	while (nb)
@@ -238,7 +252,16 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 		str[i++] = data->hex[nb % 16];
 		nb /= 16;
 	}
-	if (data->sharp == 1 && (unsigned int)ar != 0)
+	if (data->sharp == 1 && (unsigned int)ar != 0 && data->c_option == '0')
+	{
+		if (x == 'x')
+			data->result = ft_strappend(data->result, "0x");
+		else
+			data->result = ft_strappend(data->result, "0X");
+		data->nb_char += 2;
+		data->option -= 2;
+	}
+	else if (data->sharp == 1 && (unsigned int)ar != 0)
 	{
 		str[i++] = 'x';
 		str[i++] = '0';
@@ -248,7 +271,6 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
-	data->i += 1 + j;
 }
 
 void	c_maj_ar(t_data *data, void *ar, int j)

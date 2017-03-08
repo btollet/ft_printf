@@ -22,6 +22,7 @@ void	res_join(t_data *data, char *str, char c)
 		len = ft_strlen(str);
 	if (data->less == 2)
 		data->precision--;
+	ft_putnbr(data->precision);
 	while ((data->precision > data->option && data->precision > len && data->precision > 0)
 		|| (data->null == 1 && data->precision > 0))
 	{
