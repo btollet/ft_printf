@@ -16,6 +16,7 @@ t_data		check_str(t_data data, char *str, va_list ar)
 {
 	while (str[data.i] && data.nb_char != -1)
 	{
+		data.precision = 0;
 		if (str[data.i] == '%')
 		{
 			data.i++;

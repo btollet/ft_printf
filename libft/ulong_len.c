@@ -24,4 +24,3 @@ int	ft_ulonglen(unsigned long i)
 	}
 	return (result + 1);
 }
-

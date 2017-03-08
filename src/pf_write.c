@@ -20,18 +20,19 @@ void	res_join(t_data *data, char *str, char c)
 	len = 1;
 	if (str)
 		len = ft_strlen(str);
-	if (data->null == 1)
-	{
-		data->null = 0;
-		return ;
-	}
 	if (data->less == 2)
 		data->precision--;
-	while (data->precision > data->option && data->precision > len && data->precision > 0)
+	while ((data->precision > data->option && data->precision > len && data->precision > 0)
+		|| (data->null == 1 && data->precision > 0))
 	{
 		data->result = ft_strappend(data->result, " ");
 		data->precision--;
 		data->nb_char++;
+	}
+	if (data->null == 1)
+	{
+		data->null = 0;
+		return ;
 	}
 	space(data, data->option - len);
 	if (str)

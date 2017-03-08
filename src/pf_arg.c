@@ -14,8 +14,21 @@
 
 void	s_ar(t_data *data, char *ar, int j)
 {
+	char *cpy;
+
 	if (ar)
-		res_join(data, ar, 0); 
+	{
+		if (data->prec_ok == 1 && data->option > 0)
+		{
+			cpy = ft_strnew(data->option);
+			cpy = ft_strncpy(cpy, ar, data->option);
+			data->option = 0;
+			res_join(data, cpy, 0);
+			ft_memdel((void *)&cpy);
+		}
+		else
+			res_join(data, ar, 0); 
+	}
 	else
 		res_join(data, "(null)", 0);
 	data->i += 1 + j;

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_data	init()
+t_data	init(void)
 {
 	t_data	data;
 
@@ -49,10 +49,9 @@ void	get_option(t_data *data, char *str, int j, char last)
 		if (*str == '.' && data->option > 0)
 		{
 			data->precision = data->option;
-			data->option = 0;
-			
+			data->option = 0;	
 		}
-		if (*str == '0' && last == '.')
+		if (*str == '0' && last == '.' && data->null == 0) 
 			data->null = 1;
 		data->c_option = '0';
 		data->i++;
@@ -60,6 +59,7 @@ void	get_option(t_data *data, char *str, int j, char last)
 	}
 	else if (*str == '#')
 	{
+		data->null = 2;
 		data->sharp = 1;
 		data->i++;
 		get_option(data, str, 1, *str);
@@ -75,7 +75,7 @@ void	get_option(t_data *data, char *str, int j, char last)
 		data->i += ft_intlen(data->option);
 		get_option(data, str, ft_intlen(data->option), *str);
 	}
-	else if (last == '.')
+	else if (last == '.' && data->null == 0)
 		data->null = 1;
 	else if (last == 0)
 		data->option = 0;
