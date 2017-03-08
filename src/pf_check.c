@@ -62,6 +62,10 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 		u_ar(data, va_arg(ar, void *), j);
 	else if (str[data->i + j] == '%')
 	{
+		if (data->prec_ok == 1)
+			data->option = 0;
+		if (data->null > 0)
+			data->null = 0;
 		res_join(data, NULL, '%');
 		data->i += 1 + j;
 	}

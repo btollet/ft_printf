@@ -40,7 +40,11 @@ void	c_ar(t_data *data, int ar, int j)
 
 	tmp = ar;
 	if (tmp)
+	{
+		if (data->prec_ok == 1)
+			data->option = 0;
 		res_join(data, 0, tmp);
+	}
 	else if (j > 0)
 	{
 		if (data->nb_char > 0)
@@ -55,7 +59,8 @@ void	c_ar(t_data *data, int ar, int j)
 	else if (data->option)
 	{
 		data->option--;
-		res_join(data, 0, data->c_option);
+		if (data->prec_ok == 0)
+			res_join(data, 0, data->c_option);
 		if (data->nb_char > 0)
 		{
 			ft_putstr(data->result);
@@ -110,15 +115,21 @@ void	p_ar(t_data *data, long nb, int j)
 	}
 	str[i] = 0;
 	str = ft_revstr(str);
-	if (data->c_option == '0' && data->option > 0)
+	if (data->c_option == '0' && data->option > 0 && data->precision < data->option)
 	{
-		data->result = ft_strjoin(data->result, "0x");		
+		data->result = ft_strappend(data->result, "0x");
 		data->nb_char += 2;
+		if (data->prec_ok == 0)
 		data->option -= 2;
 		final = ft_strdup(str);
 	}
 	else
 		final = ft_strjoin("0x", str);
+	if (data->null == 1)
+	{
+		data->result = ft_strappend(data->result, "0x");
+		data->nb_char += 2;
+	}
 	res_join(data, final, 0);
 	ft_memdel((void *)&str);
 	ft_memdel((void *)&final);
@@ -213,9 +224,9 @@ void	u_maj_ar(t_data *data, void *ar, int j)
 
 void	x_ar(t_data *data, void *ar, int j, char x)
 {
-			unsigned int	nb; 
-			char			*str;
-			int				i;
+	unsigned int	nb; 
+	char			*str;
+	int				i;
 
 	i = 0;
 	str = ft_strnew(23);
@@ -302,26 +313,27 @@ void	lo_ar(t_data *data, void *nb, int j)
 
 void	lx_ar(t_data *data, void *ar, int j, char x)
 {
-	unsigned long	nb; 
-	char			*hex;
+	unsigned long	nb;
 	char			*str;
 	int				i;
 
 	i = 0;
-	str = ft_strnew(21);
-	if (x == 'x')
-		hex = "0123456789abcdef";
-	else
-		hex = "0123456789ABCDEF";
+	str = ft_strnew(23);
 	nb = (unsigned long)ar;
 	if (nb == 0)
 		str[i++] = '0';
 	while (nb)
 	{
-		str[i++] = hex[nb % 16];
+		str[i++] = data->hex[nb % 16];
 		nb /= 16;
 	}
-	str[i] = 0;
+	if (data->sharp == 1 && (unsigned long)ar != 0)
+	{
+		str[i++] = 'x';
+		str[i++] = '0';
+	}
+	while (x == 'X' && --i >= 0)
+		str[i] = ft_toupper(str[i]);
 	str = ft_revstr(str);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);
@@ -358,32 +370,108 @@ void	s_maj_ar(t_data *data, void *ar, int j)
 		data->result = ft_strnew(0);
 	}
 	i = 0;
-	while (tmp[i])
+	if (data->prec_ok == 1)
+		s_maj_prec(data, tmp);
+	else
 	{
-		if (tmp[i] <= 0x7f)
-			write (1, &tmp[i], 1);
-		else if (tmp[i] <= 0x7ff)
+		while (tmp[i])
 		{
-			c = (char) (0xc0 | (tmp[i] >> 6));
-			write (1, &c, 1);
-			c = (char) (0x80 | (tmp[i] & 0x3f));
-			write (1, &c, 1);
-			data->nb_char ++;
+			if (tmp[i] <= 0x7f)
+				write (1, &tmp[i], 1);
+			else if (tmp[i] <= 0x7ff)
+			{
+				c = (char) (0xc0 | (tmp[i] >> 6));
+				write (1, &c, 1);
+				c = (char) (0x80 | (tmp[i] & 0x3f));
+				write (1, &c, 1);
+				data->nb_char ++;
+			}
+			else if (tmp[i] <= 0xffff)
+			{
+				c = (char) (0xe0 | (tmp[i] >> 12));
+				write (1, &c, 1);
+				c = (char) (0x80 | ((tmp[i] >> 6) & 0x3f));
+				write (1, &c, 1);
+				c = (char) (0x80 | (tmp[i] & 0x3f));
+				write (1, &c, 1);  
+				data->nb_char += 2;
+			}
+			else
+				break;
+			data->nb_char++;
+			i++;
 		}
-		else if (tmp[i] <= 0xffff)
-		{
-			c = (char) (0xe0 | (tmp[i] >> 12));
-			write (1, &c, 1);
-			c = (char) (0x80 | ((tmp[i] >> 6) & 0x3f));
-			write (1, &c, 1);
-			c = (char) (0x80 | (tmp[i] & 0x3f));
-			write (1, &c, 1);  
-			data->nb_char += 2;
-		}
-		data->nb_char++;
-		i++;
 	}
 	if (data->option + len < 0)
 		space(data, -(data->option + len));
 	data->i += 1 + j;
+}
+
+void	s_maj_prec(t_data *data, wchar_t *tmp)
+{
+	char	c;
+
+	if (data->precision > 0)
+		s_maj_check_prec(data, tmp);
+	while (*tmp)
+	{
+		if (*tmp <= 0x7f && data->option >= 1)
+			write (1, &*tmp, 1);
+		else if (*tmp <= 0x7ff && data->option >= 2)
+		{
+			c = (char) (0xc0 | (*tmp >> 6));
+			write (1, &c, 1);
+			c = (char) (0x80 | (*tmp & 0x3f));
+			write (1, &c, 1);
+			data->nb_char ++;
+			data->option--;
+		}
+		else if (*tmp <= 0xffff && data->option >= 3)
+		{
+			c = (char) (0xe0 | (*tmp >> 12));
+			write (1, &c, 1);
+			c = (char) (0x80 | ((*tmp >> 6) & 0x3f));
+			write (1, &c, 1);
+			c = (char) (0x80 | (*tmp & 0x3f));
+			write (1, &c, 1);  
+			data->nb_char += 2;
+			data->option -= 2;
+		}
+		else
+			break;
+		data->nb_char++;
+		data->option--;
+		tmp++;
+	}
+}
+
+void	s_maj_check_prec(t_data *data, wchar_t *tmp)
+{
+	int			cpy;
+
+	cpy = data->option;
+	while (*tmp)
+	{
+		if (*tmp <= 0x7ff && cpy >= 2)
+		{
+			cpy--;
+			data->precision--;
+		}
+		else if (*tmp <= 0xffff && cpy >= 3)
+		{  
+			cpy -= 2;
+			data->precision -= 2;
+		}
+		else if (!(*tmp <= 0x7f && cpy >= 1))
+			break;
+		cpy--;
+		data->precision--;
+		tmp++;
+	}
+	while (data->precision > 0)
+	{
+		write(1, " ", 1);
+		data->precision--;
+		data->nb_char++;
+	}
 }

@@ -43,6 +43,8 @@ void			c_ar(t_data *data, int ar, int j);
 void			d_ar(t_data *data, int nb, int j);
 void			p_ar(t_data *data, long nb, int j);
 void			s_maj_ar(t_data *data, void *ar, int j);
+void			s_maj_prec(t_data *data, wchar_t *tmp);
+void			s_maj_check_prec(t_data *data, wchar_t *tmp);
 void			d_maj_ar(t_data *data, void *ar, int j);
 void			o_ar(t_data *data, void *nb, int j);
 void			o_maj_ar(t_data *data, void *nb, int j);
