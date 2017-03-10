@@ -45,15 +45,21 @@ int	main()
 	printf("     Result: %d\n\n", printf("%+010d is a string", 42));
 
 	printf("     Result: %d\n", ft_printf("{%+03d}", 0));
-	printf("     Result: %d\n\n", printf("{%+03d}", 0));
+	printf("     Result: %d\n\n", printf("{%+03d}", 0));*/
 
-	printf("     Result: %d\n", ft_printf("%#llx", 9223372036854775807));
-	printf("     Result: %d\n\n", printf("%#llx", 9223372036854775807));*/
+	/*printf("     Result: %d\n", ft_printf("%5+d", 42));
+	printf("     Result: %d\n\n", printf("%5+d", 42));
 
 	printf("     Result: %d\n", ft_printf("%-0+5d", 42));
 	printf("     Result: %d\n\n", printf("%-0+5d", 42));
 
 	printf("     Result: %d\n", ft_printf("%-+10.5d", 4242));
-	printf("     Result: %d\n\n", printf("%-+10.5d", 4242));
+	printf("     Result: %d\n\n", printf("%-+10.5d", 4242));*/
+
+	printf("     Result: %d\n", ft_printf("@main_ftprintf: %-33.12.d\n", 256));
+	printf("     Result: %d\n\n", printf("@main_ftprintf: %-33.12.d\n", 256));
+
+	printf("     Result: %d\n", ft_printf("@main_ftprintf: %##-##0000 33...12..#00d", 256));
+	printf("     Result: %d\n\n", printf("@main_ftprintf: %##-##0000 33...12..#00d", 256));
 	return (1);
 }

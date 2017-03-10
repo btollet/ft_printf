@@ -28,6 +28,8 @@ void	res_join(t_data *data, char *str, char c)
 		else if (data->precision < 0)
 			data->precision++;
 	}
+	if (data->less == 3 && data->option == 0)
+		data->precision++;
 	while ((data->precision > data->option && data->precision > len && data->precision > 0)
 		|| (data->null == 1 && data->precision > 0))
 	{

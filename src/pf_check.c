@@ -87,9 +87,10 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 		if (j != 0)
 			data->i++;
 	}
-	else if (j != 0 )
+	else if (ft_isprintfflag(str[data->i + j]))
+		check_arg(data, str, ar, j + 1);
+	else if (j != 0)
 		data->i++;
-
 }
 
 void	check_l_arg(t_data *data, char *str, va_list ar, int j)

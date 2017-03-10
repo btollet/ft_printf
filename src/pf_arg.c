@@ -109,7 +109,11 @@ void	d_ar(t_data *data, void *ar, int j, int h)
 		data->less = 2;
 	}
 	else if (data->less == 1)
+	{
+		if (nb < 0 && data->plus == 1)
+			data->option--;
 		data->less = 3;
+	}
 	if (data->null != 0 && nb != 0)
 		data->null = 0;
 	str = ft_itoa(nb);

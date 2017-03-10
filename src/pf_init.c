@@ -35,7 +35,8 @@ void	reset_option(t_data *data, char *str, int j, int all)
 		data->precision = 0;
 		data->c_option = ' ';
 		data->null = 0;
-		data->prec_ok = 0;	
+		data->prec_ok = 0;
+		data->digit_found = 0;
 	}
 	str += data->i + j;
 	get_option(data, str, 1, 0);
@@ -51,15 +52,18 @@ void	get_option(t_data *data, char *str, int j, char last)
 		str += j;
 	if (*str == '0' || *str == '.')
 	{
-		if (*str == '.')
-			data->prec_ok = 1;
 		if (*str == '.' && data->option != 0)
 		{
-			data->precision = data->option;
+			if (((data->precision < data->option && data->option > 0)
+				|| (data->precision > data->option && data->option < 0))
+				&& data->prec_ok == 0)
+				data->precision = data->option;	
 			data->option = 0;	
 		}
 		if (*str == '0' && last == '.' && data->null == 0) 
 			data->null = 1;
+		if (*str == '.')
+			data->prec_ok = 1;
 		data->c_option = '0';
 		data->i++;
 		get_option(data, str, 1, *str);
@@ -81,7 +85,21 @@ void	get_option(t_data *data, char *str, int j, char last)
 		if (*str == '-')
 			data->less = 1;
 		if (data->option == 0 && (*str == '-' || *str == '+') && !ft_isdigit(str[1]))
-			data->option = save;
+		{
+			if (save < 0)
+				data->option = save;
+			else
+				data->precision = save;
+		}
+		if (data->plus == 1 && data->less == 1 && data->digit_found == 1 && (*str == '-' || *str == '+'))
+		{
+			if (data->option > 0)
+				data->option--;
+			else if (data->option < 0)
+				data->option++;
+		}
+		if (((*str == '-' || *str == '+') && ft_isdigit(str[1])) || ft_isdigit(*str))
+			data->digit_found = 1;
 		len = ft_atoilen(str);
 		data->i += len;
 		if (data->less == 1 && data->option > 0 && last != '.')

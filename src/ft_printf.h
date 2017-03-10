@@ -30,6 +30,8 @@ typedef struct	s_data
 	int			precision;
 	int			prec_ok;
 	int			null;
+	int			digit_found;
+	int			no_reset;
 }				t_data;
 
 int				ft_printf(char *str, ...);
