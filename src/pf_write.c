@@ -16,13 +16,18 @@ void	res_join(t_data *data, char *str, char c)
 {
 	char	*tmp;
 	int		len;
+	int		save;
 
 	len = 1;
 	if (str)
 		len = ft_strlen(str);
-	if (data->less == 2)
-		data->precision--;
-	ft_putnbr(data->precision);
+	if (data->less == 2 || data->plus == 2)
+	{
+		if (data->precision > 0)
+			data->precision--;
+		else if (data->precision < 0)
+			data->precision++;
+	}
 	while ((data->precision > data->option && data->precision > len && data->precision > 0)
 		|| (data->null == 1 && data->precision > 0))
 	{
@@ -35,7 +40,10 @@ void	res_join(t_data *data, char *str, char c)
 		data->null = 0;
 		return ;
 	}
+	save = data->option;
 	space(data, data->option - len);
+	data->less = 0;
+	data->c_option = ' ';
 	if (str)
 		data->result = ft_strappend(data->result, str);
 	if (c)
@@ -48,6 +56,10 @@ void	res_join(t_data *data, char *str, char c)
 	data->nb_char += len;
 	if (data->option + len < 0)
 		space(data, -(data->option + len));
+	if (save - len > 0)
+		len = save;
+	if (data->precision + len < 0)
+		space(data, -(data->precision + len));
 	data->option = 0;
 }
 
@@ -59,8 +71,12 @@ void	space(t_data *data, int nb)
 	{
 		data->result = ft_strappend(data->result, "+");
 		data->nb_char++;
-		data->option--;
-		nb--;
+		if (data->prec_ok == 0 && data->option > 0)
+		{
+			data->option--;
+			nb--;
+		}
+		data->c_option = '0';
 		data->plus = 0;
 	}
 	if (data->less == 2 && data->c_option == '0')
@@ -72,7 +88,11 @@ void	space(t_data *data, int nb)
 			nb--;
 		}
 		data->nb_char++;
-		data->less = 0;
+	}
+	else if (data->less == 3 && data->option == 0)
+	{
+		data->result = ft_strappend(data->result, " ");
+		data->nb_char++;
 	}
 	if (nb > 0)
 	{

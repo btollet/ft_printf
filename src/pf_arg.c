@@ -85,14 +85,19 @@ void	c_ar(t_data *data, int ar, int j)
 	data->i += 1 + j;
 }
 
-void	d_ar(t_data *data, int nb, int j)
+void	d_ar(t_data *data, void *ar, int j, int h)
 {
-	char *str;
+	char	*str;
+	int		nb;
 
+	if (h == 0)
+		nb = (int)ar;
+	else
+		nb = (short)ar;
 	data->i += 1 + j;
 	if (data->plus == 1 && nb >= 0)
 		data->plus = 2;
-	while (j-- && nb >= 0 && data->plus == 0)
+	while (j-- && nb >= 0 && data->plus == 0 && data->less == 0 && data->precision == 0)
 	{
 		data->result = ft_strappend(data->result, " ");
 		data->option--;
@@ -103,6 +108,10 @@ void	d_ar(t_data *data, int nb, int j)
 		nb = -nb;
 		data->less = 2;
 	}
+	else if (data->less == 1)
+		data->less = 3;
+	if (data->null != 0 && nb != 0)
+		data->null = 0;
 	str = ft_itoa(nb);
 	res_join(data, str, 0);
 	ft_memdel((void *)&str);

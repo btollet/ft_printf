@@ -95,5 +95,7 @@ int					ft_longlen(long i);
 char				*ft_itoa_long(long n);
 char				*ft_itoa_ulong(unsigned long n);
 int					ft_ulonglen(unsigned long i);
+int					ft_atoilen(char *str);
+
 
 #endif
