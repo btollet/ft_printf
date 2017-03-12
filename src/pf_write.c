@@ -45,6 +45,7 @@ void	res_join(t_data *data, char *str, char c)
 	save = data->option;
 	space(data, data->option - len);
 	data->less = 0;
+	data->plus = 0;
 	data->c_option = ' ';
 	if (str)
 		data->result = ft_strappend(data->result, str);
@@ -79,7 +80,6 @@ void	space(t_data *data, int nb)
 			nb--;
 		}
 		data->c_option = '0';
-		data->plus = 0;
 	}
 	if (data->less == 2 && data->c_option == '0')
 	{
@@ -93,8 +93,13 @@ void	space(t_data *data, int nb)
 	}
 	else if (data->less == 3 && data->option == 0)
 	{
-		data->result = ft_strappend(data->result, " ");
-		data->nb_char++;
+		if (data->sharp == 0 || data->plus != 0)
+			data->precision--;
+		else
+		{
+			data->result = ft_strappend(data->result, " ");
+			data->nb_char++;
+		}
 	}
 	if (nb > 0)
 	{

@@ -88,7 +88,10 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 			data->i++;
 	}
 	else if (ft_isprintfflag(str[data->i + j]))
-		check_arg(data, str, ar, j + 1);
+	{
+		data->no_reset = 1;
+		check_arg(data, str, ar, j);
+	}
 	else if (j != 0)
 		data->i++;
 }
@@ -139,7 +142,7 @@ void	check_h_arg(t_data *data, char *str, va_list ar)
 	else if (str[data->i] == 'D' || str[data->i] == 'u')
 		d_maj_ar(data, va_arg(ar, void *), 0);
 	else if (str[data->i] == 'o' || str[data->i] == 'O')
-		o_ar(data, va_arg(ar, void *), 0);
+		ho_ar(data, va_arg(ar, void *), 0);
 	else if (str[data->i] == 'U')
 		u_maj_ar(data, va_arg(ar, void *), 0);
 	else if (str[data->i] == 'x' || str[data->i] == 'X')

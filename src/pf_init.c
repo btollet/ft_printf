@@ -22,16 +22,18 @@ t_data	init(void)
 	data.nb_char = 0;
 	data.option = 0;
 	data.precision = 0;
+	data.no_reset = 0;
 	return (data);
 }
 
 void	reset_option(t_data *data, char *str, int j, int all)
 {
-	if (all == 0)
+	if (all == 0 && data->no_reset == 0)
 	{
 		data->sharp = 0;
 		data->plus = 0;
-		data->less = 0;	
+		data->less = 0;
+		data->zero = 0;	
 		data->precision = 0;
 		data->c_option = ' ';
 		data->null = 0;
@@ -39,6 +41,7 @@ void	reset_option(t_data *data, char *str, int j, int all)
 		data->digit_found = 0;
 	}
 	str += data->i + j;
+	data->no_reset = 0;
 	get_option(data, str, 1, 0);
 }
 
@@ -52,6 +55,8 @@ void	get_option(t_data *data, char *str, int j, char last)
 		str += j;
 	if (*str == '0' || *str == '.')
 	{
+		if (*str == '0')
+			data->zero = 1;
 		if (*str == '.' && data->option != 0)
 		{
 			if (((data->precision < data->option && data->option > 0)

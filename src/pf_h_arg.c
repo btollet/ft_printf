@@ -11,7 +11,29 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-     
+
+void	ho_ar(t_data *data, void *nb, int j)
+{
+	int				i;
+	char			*str;
+	unsigned short	deci;
+
+	i = 0;
+	deci = (unsigned short)nb;
+	str = ft_strnew(16);
+	str[0] = '0';
+	while (deci != 0)
+	{
+		str[i] = (deci % 8) + 48;
+		deci /= 8;
+		i++;
+	}
+	str = ft_revstr(str);
+	res_join(data, str, 0);
+	ft_memdel((void *)&str);
+	data->i += 1 + j;
+}
+
 void	hhd_ar(t_data *data, void *ar, int j)
 {
 	char	*str;

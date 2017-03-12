@@ -272,7 +272,8 @@ void	x_ar(t_data *data, void *ar, int j, char x)
 		else
 			data->result = ft_strappend(data->result, "0X");
 		data->nb_char += 2;
-		data->option -= 2;
+		if (data->prec_ok == 0)
+			data->option -= 2;
 	}
 	else if (data->sharp == 1 && (unsigned int)ar != 0)
 	{
@@ -505,7 +506,10 @@ void	s_maj_check_prec(t_data *data, wchar_t *tmp)
 	}
 	while (data->precision > 0)
 	{
-		write(1, " ", 1);
+		if (data->zero == 1)
+			write(1, "0",1);
+		else
+			write(1, " ", 1);
 		data->precision--;
 		data->nb_char++;
 	}

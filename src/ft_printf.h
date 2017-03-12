@@ -26,6 +26,7 @@ typedef struct	s_data
 	char		c_option;
 	int			plus;
 	int			less;
+	int			zero;
 	int			sharp;
 	int			precision;
 	int			prec_ok;
@@ -56,6 +57,7 @@ void			x_ar(t_data *data, void *ar, int j, char x);
 void			c_maj_ar(t_data *data, void *ar, int j);
 void			lo_ar(t_data *data, void *nb, int j);
 void			lx_ar(t_data *data, void *ar, int j, char x);
+void			ho_ar(t_data *data, void *nb, int j);
 void			hhd_ar(t_data *data, void *ar, int j);
 void			hhu_ar(t_data *data, void *ar, int j);
 void			hho_ar(t_data *data, void *nb, int j);
