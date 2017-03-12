@@ -93,13 +93,14 @@ void	space(t_data *data, int nb)
 	}
 	else if (data->less == 3 && data->option == 0)
 	{
-		if (data->sharp == 0 || data->plus != 0)
-			data->precision--;
-		else
+		if ((data->sharp != 0 || data->prec_ok == 0) && data->plus == 0)
 		{
 			data->result = ft_strappend(data->result, " ");
 			data->nb_char++;
-		}
+		}	
+		else
+			data->precision--;
+		
 	}
 	if (nb > 0)
 	{

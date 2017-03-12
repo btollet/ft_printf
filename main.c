@@ -8,7 +8,7 @@
 int	main()
 {
 	setlocale(LC_ALL, "");
-	/*printf("     Result: %d\n", ft_printf("{%            -d   }", 42));
+	printf("     Result: %d\n", ft_printf("{%            -d   }", 42));
 	printf("     Result: %d\n\n", printf("{%            -d   }", 42));
 
 	printf("     Result: %d\n", ft_printf("{%-10d}", 42));
@@ -63,7 +63,7 @@ int	main()
 	printf("     Result: %d\n\n", printf("@main_ftprintf: %##-##0000 33...12..#00d", 256));
 
 	printf("     Result: %d\n", ft_printf("@main_ftprintf: %###-#0000 33...12..#0+0d", 256));
-	printf("     Result: %d\n\n", printf("@main_ftprintf: %###-#0000 33...12..#0+0d", 256));*/
+	printf("     Result: %d\n\n", printf("@main_ftprintf: %###-#0000 33...12..#0+0d", 256));
 
 	printf("     Result: %d\n", ft_printf("{%05.S}", L"42 c est cool"));
 	printf("     Result: %d\n\n", printf("{%05.S}", L"42 c est cool"));
