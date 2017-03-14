@@ -424,6 +424,7 @@ void	s_maj_ar(t_data *data, void *ar, int j)
 			}
 			else if (tmp[i] <= 0xffff)
 			{
+
 				c = (char) (0xe0 | (tmp[i] >> 12));
 				write (1, &c, 1);
 				c = (char) (0x80 | ((tmp[i] >> 6) & 0x3f));
