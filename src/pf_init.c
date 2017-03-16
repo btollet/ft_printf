@@ -33,7 +33,7 @@ void	reset_option(t_data *data, char *str, int j, int all)
 		data->sharp = 0;
 		data->plus = 0;
 		data->less = 0;
-		data->zero = 0;	
+		data->zero = 0;
 		data->precision = 0;
 		data->c_option = ' ';
 		data->null = 0;
@@ -45,76 +45,12 @@ void	reset_option(t_data *data, char *str, int j, int all)
 	get_option(data, str, 1, 0);
 }
 
-void	get_option(t_data *data, char *str, int j, char last)
+void	reset_result(t_data *data)
 {
-	int		len;
-	int		save;
-
-	len = 1;
-	if (last != 0)
-		str += j;
-	if (*str == '0' || *str == '.')
+	if (data->nb_char > 0)
 	{
-		if (*str == '0')
-			data->zero = 1;
-		if (*str == '.' && data->option != 0)
-		{
-			if (((data->precision < data->option && data->option > 0)
-				|| (data->precision > data->option && data->option < 0))
-				&& data->prec_ok == 0)
-				data->precision = data->option;	
-			data->option = 0;	
-		}
-		if (*str == '0' && last == '.' && data->null == 0) 
-			data->null = 1;
-		if (*str == '.')
-			data->prec_ok = 1;
-		data->c_option = '0';
-		data->i++;
-		get_option(data, str, 1, *str);
+		ft_putstr(data->result);
+		ft_memdel((void *)&data->result);
+		data->result = ft_strnew(0);
 	}
-	else if (*str == '#')
-	{
-		data->null = 2;
-		data->sharp = 1;
-		data->i++;
-		get_option(data, str, 1, *str);
-	}
-	else if (ft_isdigit(*str) || *str == '-' || *str == '+')
-	{
-		save = data->option;
-		if ((data->option = ft_atoi(str)) < 0)
-			data->c_option = ' ';
-		if (*str == '+')
-			data->plus = 1;
-		if (*str == '-')
-			data->less = 1;
-		if (data->option == 0 && (*str == '-' || *str == '+') && !ft_isdigit(str[1]))
-		{
-			if (save < 0)
-				data->option = save;
-			else
-				data->precision = save;
-		}
-		if (data->plus == 1 && data->less == 1 && data->digit_found == 1 && (*str == '-' || *str == '+'))
-		{
-			if (data->option > 0)
-				data->option--;
-			else if (data->option < 0)
-				data->option++;
-		}
-		if (((*str == '-' || *str == '+') && ft_isdigit(str[1])) || ft_isdigit(*str))
-			data->digit_found = 1;
-		len = ft_atoilen(str);
-		data->i += len;
-		if (data->less == 1 && data->option > 0 && last != '.')
-			data->option = -data->option;
-		if (len <= 0)
-			len = 1;
-		get_option(data, str, len, *str);
-	}
-	else if (last == '.' && data->null == 0)
-		data->null = 1;
-	else if (last == 0)
-		data->option = 0;
 }

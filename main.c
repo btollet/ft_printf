@@ -73,8 +73,5 @@ int	main()
 
 	printf("     Result: %d\n", ft_printf("%hhC, %hhC", 0, L'米'));
 	printf("     Result: %d\n\n", printf("%hhC, %hhC", 0, L'米'));
-
-	printf("     Result: %d\n", ft_printf("% #00012.3.5.28d\n", 42));
-	printf("     Result: %d\n\n", printf("% #00012.3.5.28d\n", 42));
 	return (1);
 }

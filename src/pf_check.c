@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_data		check_str(t_data data, char *str, va_list ar)
+t_data	check_str(t_data data, char *str, va_list ar)
 {
 	while (str[data.i] && data.nb_char != -1)
 	{
@@ -35,51 +35,43 @@ t_data		check_str(t_data data, char *str, va_list ar)
 void	check_arg(t_data *data, char *str, va_list ar, int j)
 {
 	reset_option(data, str, j, 0);
-	while (str[data->i + j] == ' ' && (data->plus == 1 || data->less == 1))
+	while (str[IJ] == ' ' && (data->plus == 1 || data->less == 1))
 		j++;
-	if (str[data->i + j] == 's')
+	if (str[IJ] == 's')
 		s_ar(data, va_arg(ar, char *), j);
-	else if (str[data->i + j] == 'c')
+	else if (str[IJ] == 'c')
 		c_ar(data, va_arg(ar, int), j);
-	else if (str[data->i + j] == 'd' || str[data->i + j] == 'i')
+	else if (str[IJ] == 'd' || str[IJ] == 'i')
 		d_ar(data, va_arg(ar, void *), j, 0);
-	else if (str[data->i + j] == 'p')
+	else if (str[IJ] == 'p')
 		p_ar(data, va_arg(ar, long), j);
-	else if (str[data->i + j] == 'S')
+	else if (str[IJ] == 'S')
 		s_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'D')
+	else if (str[IJ] == 'D')
 		d_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'o')
+	else if (str[IJ] == 'o')
 		o_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'O')
+	else if (str[IJ] == 'O')
 		o_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'U')
-		u_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'x' || str[data->i + j] == 'X')
-		x_ar(data, va_arg(ar, void *), j, str[data->i + j]);
-	else if (str[data->i + j] == 'C')
+	else if (str[IJ] == 'u' || str[IJ] == 'U')
+		u_ar(data, va_arg(ar, void *), j, str[IJ]);
+	else if (str[IJ] == 'x' || str[IJ] == 'X')
+		x_ar(data, va_arg(ar, void *), j, str[IJ]);
+	else
+		check_arg_part2(data, str, ar, j);
+}
+
+void	check_arg_part2(t_data *data, char *str, va_list ar, int j)
+{
+	if (str[IJ] == 'C')
 		c_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'u')
-		u_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == '%')
-	{
-		if (data->prec_ok == 1)
-			data->option = 0;
-		if (data->null > 0)
-			data->null = 0;
-		if (data->precision)
-		{
-			space(data, data->precision - 1);
-			data->precision = 0;
-		}
-		res_join(data, NULL, '%');
-		data->i += 1 + j;
-	}
-	else if (str[data->i + j] == ' ')
+	else if (str[IJ] == '%')
+		diese_ar(data, j);
+	else if (str[IJ] == ' ')
 		check_arg(data, str, ar, j + 1);
-	else if (str[data->i + j] == 'l' || str[data->i + j] == 'z' || str[data->i + j] == 'j')
+	else if (str[IJ] == 'l' || str[IJ] == 'z' || str[IJ] == 'j')
 		check_l_arg(data, str, ar, j);
-	else if (str[data->i + j] == 'h')
+	else if (str[IJ] == 'h')
 		check_h_arg(data, str, ar);
 	else if (data->precision)
 	{
@@ -87,103 +79,11 @@ void	check_arg(t_data *data, char *str, va_list ar, int j)
 		if (j != 0)
 			data->i++;
 	}
-	else if (ft_isprintfflag(str[data->i + j]))
+	else if (ft_isprintfflag(str[IJ]))
 	{
 		data->no_reset = 1;
 		check_arg(data, str, ar, j);
 	}
 	else if (j != 0)
 		data->i++;
-}
-
-void	check_l_arg(t_data *data, char *str, va_list ar, int j)
-{
-	data->i++;
-	reset_option(data, str, j, 1);
-	if (str[data->i + j] == 's')
-		s_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'c')
-		c_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'd' || str[data->i + j] == 'i')
-		d_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'S')
-		s_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'D' || str[data->i + j] == 'u')
-		u_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'o' || str[data->i + j] == 'O')
-		lo_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'U')
-		u_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'x' || str[data->i + j] == 'X')
-		lx_ar(data, va_arg(ar, void *), j, str[data->i + j]);
-	else if (str[data->i + j] == 'C')
-		c_maj_ar(data, va_arg(ar, void *), j);
-	else if (str[data->i + j] == 'p')
-		p_ar(data, va_arg(ar, long), j);
-	else if (str[data->i + j] == 'l' || str[data->i + j] == 'z' || str[data->i + j] == 'j' || str[data->i + j] == 'h')
-		check_l_arg(data, str, ar, 0);
-	else if (str[data->i + j])
-		check_l_arg(data, str, ar, j + 1);
-}
-
-void	check_h_arg(t_data *data, char *str, va_list ar)
-{
-	data->i++;
-	if (str[data->i] == 's')
-		s_ar(data, va_arg(ar, char *), 0);
-	else if (str[data->i] == 'c')
-		c_ar(data, va_arg(ar, int), 0);
-	else if (str[data->i] == 'd' || str[data->i] == 'i')
-		d_ar(data, va_arg(ar, void *), 0, 1);
-	else if (str[data->i] == 'p')
-		p_ar(data, va_arg(ar, long), 0);
-	else if (str[data->i] == 'S')
-		s_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'D' || str[data->i] == 'u')
-		d_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'o' || str[data->i] == 'O')
-		ho_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'U')
-		u_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'x' || str[data->i] == 'X')
-		x_ar(data, va_arg(ar, void *), 0, str[data->i]);
-	else if (str[data->i] == 'C')
-		c_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'h')
-		check_hh_arg(data, str, ar);
-	else if (str[data->i] == 'l' || str[data->i] == 'z' || str[data->i] == 'j')
-		check_l_arg(data, str, ar, 0);
-}
-
-void	check_hh_arg(t_data *data, char *str, va_list ar)
-{
-	data->i++;
-	if (str[data->i] == 's')
-		s_ar(data, va_arg(ar, char *), 0);
-	else if (str[data->i] == 'c')
-		c_ar(data, va_arg(ar, int), 0);
-	else if (str[data->i] == 'd' || str[data->i] == 'i')
-		hhd_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'p')
-		p_ar(data, va_arg(ar, long), 0);
-	else if (str[data->i] == 'S')
-		s_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'D')
-		d_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'u')
-		hhu_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'o')
-		hho_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'O')
-		hho_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'U')
-		u_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'x' || str[data->i] == 'X')
-		hhx_ar(data, va_arg(ar, void *), 0, str[data->i]);
-	else if (str[data->i] == 'C')
-		c_maj_ar(data, va_arg(ar, void *), 0);
-	else if (str[data->i] == 'h')
-		check_hh_arg(data, str, ar);
-	else if (str[data->i] == 'l' || str[data->i] == 'z' || str[data->i] == 'j')
-		check_l_arg(data, str, ar, 0);
 }
