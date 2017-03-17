@@ -6,7 +6,7 @@
 #    By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/18 13:08:36 by benjamin          #+#    #+#              #
-#    Updated: 2017/03/07 16:24:15 by benjamin         ###   ########.fr        #
+#    Updated: 2017/03/17 20:44:00 by benjamin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,9 @@ ft_memcmp.c       ft_putstr.c     ft_striteri.c   ft_strnstr.c    get_next_line.
 ft_strappend.c    ft_itoa_long.c  ft_longlen.c    ft_itoa_ulong.c ulong_len.c     ft_atoilen.c \
 ft_isprintfflag.c
 
-PRINTF_SRCS = ft_printf.c    pf_init.c    pf_arg.c         pf_check.c    pf_h_arg.c \
-pf_write.c    pf_l_arg.c     pf_hh_arg.c  pf_get_option.c  pf_s_maj.c
+PRINTF_SRCS =  ft_printf.c    pf_init.c    pf_arg.c         pf_check.c    pf_h_arg.c     \
+pf_write.c     pf_l_arg.c     pf_hh_arg.c  pf_get_option.c  pf_s_maj.c    pf_arg_part2.c \
+pf_arg_part3.c pf_x.c 
 
 LIB_PREF = $(addprefix $(LIB_PATH)/, $(LIB_SRCS))
 LIB_OBJN = $(LIB_SRCS:.c=.o)

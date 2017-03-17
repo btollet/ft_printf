@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/19 16:58:21 by benjamin          #+#    #+#             */
-/*   Updated: 2017/03/07 17:36:38 by benjamin         ###   ########.fr       */
+/*   Updated: 2017/03/17 20:55:56 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void			space_part2(t_data *data, int nb);
 void			diese_ar(t_data *data, int j);
 void			s_ar(t_data *data, char *ar, int j);
 void			c_ar(t_data *data, int ar, int j);
+void			c_ar_part2(t_data *data);
 void			d_ar(t_data *data, void *ar, int j, int h);
+void			d_ar_part2(t_data *data, int nb);
 void			p_ar(t_data *data, long nb, int j);
 void			s_maj_ar(t_data *data, void *ar, int j);
 void			s_maj_ar_part2(t_data *data, wchar_t *tmp, int len, int j);
@@ -63,6 +65,8 @@ void			o_ar(t_data *data, void *nb, int j);
 void			o_maj_ar(t_data *data, void *nb, int j);
 void			u_ar(t_data *data, void *ar, int j, char u);
 void			x_ar(t_data *data, void *ar, int j, char x);
+void			x_ar_part2(t_data *data, char x);
+char			*x_ar_convert(t_data *data, void *ar);
 void			c_maj_ar(t_data *data, void *ar, int j);
 void			lo_ar(t_data *data, void *nb, int j);
 void			lx_ar(t_data *data, void *ar, int j, char x);
