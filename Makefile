@@ -6,7 +6,7 @@
 #    By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/18 13:08:36 by benjamin          #+#    #+#              #
-#    Updated: 2017/03/17 20:44:00 by benjamin         ###   ########.fr        #
+#    Updated: 2017/03/18 16:13:55 by btollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,8 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(LIB_OBJ) $(PRINTF_OBJ)
-	@ar rc $(NAME) $^
+$(NAME): obj $(LIB_OBJ) $(PRINTF_OBJ)
+	@ar rc $(NAME) $(LIB_OBJ) $(PRINTF_OBJ)
 	@echo "ft_printf : \033[1;36mCompile !\033[0m"
 
 $(OBJ_PATH)/%.o: $(PRINTF_PATH)/%.c
@@ -56,6 +56,11 @@ $(OBJ_PATH)/%.o: $(PRINTF_PATH)/%.c
 $(OBJ_PATH)/%.o: $(LIB_PATH)/%.c
 	@gcc $(FLAGS) -c $< -o $@
 	@echo "Libft : \033[1;36mCompilation of C files succesful\033[0m"
+
+obj:
+	@if ! test -d obj; \
+		then mkdir obj; \
+	fi
 
 clean:
 	@rm -f $(PRINTF_OBJ) $(LIB_OBJ)
